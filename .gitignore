@@ -1,5 +1,5 @@
 .build/
-Tether.app/
+/macos/Tether.app/
 .DS_Store
 bin/
 obj/
