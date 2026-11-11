@@ -10,7 +10,7 @@
 
 ## 받기
 
-저장소의 **Actions → windows → 최근 실행 → Artifacts** 에서 `Tether-windows-x64` 를 내려받아 압축을 풀고 `Tether.exe` 를 실행한다. 설치 과정은 없고, .NET 을 따로 깔 필요도 없다.
+저장소의 **Actions → windows → 최근 실행 → Artifacts** 또는 [Releases](../../../releases/latest) 에서 `Tether-windows-x64` 를 내려받아 압축을 풀고 `Tether.exe` 를 실행한다. 설치 과정은 없고, .NET 을 따로 깔 필요도 없다.
 
 서명되지 않은 실행 파일이라 처음 실행할 때 SmartScreen 경고가 뜨면 「추가 정보 → 실행」을 누른다.
 

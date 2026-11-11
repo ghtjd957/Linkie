@@ -1,14 +1,20 @@
 #!/bin/zsh
-# 릴리스 빌드를 Tether.app 으로 묶는다. 사용: scripts/bundle.sh
+# 릴리스 빌드를 Tether.app 으로 묶는다. 사용: scripts/bundle.sh  (배포용: UNIVERSAL=1 scripts/bundle.sh)
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
-swift build -c release
+
+# UNIVERSAL=1 이면 인텔·애플 실리콘 겸용으로 빌드한다(배포용).
+ARCH_FLAGS=()
+if [[ "${UNIVERSAL:-0}" == "1" ]]; then
+  ARCH_FLAGS=(--arch arm64 --arch x86_64)
+fi
+swift build -c release "${ARCH_FLAGS[@]}"
 
 APP="Tether.app"
 rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS"
-cp "$(swift build -c release --show-bin-path)/Tether" "$APP/Contents/MacOS/Tether"
+cp "$(swift build -c release "${ARCH_FLAGS[@]}" --show-bin-path)/Tether" "$APP/Contents/MacOS/Tether"
 
 cat > "$APP/Contents/Info.plist" <<'PLIST'
 <?xml version="1.0" encoding="UTF-8"?>

@@ -1,0 +1,70 @@
+name: release
+
+# 버전 태그(v1.0.0 같은)를 올리면 맥용·윈도우용 파일을 만들어 릴리스에 붙인다.
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  macos:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: 테스트
+        working-directory: macos
+        run: swift test
+      - name: 앱 묶기 (인텔·애플 실리콘 겸용)
+        working-directory: macos
+        run: |
+          UNIVERSAL=1 scripts/bundle.sh
+          lipo -archs Tether.app/Contents/MacOS/Tether
+          ditto -c -k --keepParent Tether.app "$GITHUB_WORKSPACE/Tether-macos.zip"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: macos
+          path: Tether-macos.zip
+          if-no-files-found: error
+
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - name: 테스트
+        run: dotnet test windows/Tether.Tests -c Release
+      - name: 실행 파일 만들기
+        run: >
+          dotnet publish windows/Tether.App -c Release -r win-x64 --self-contained true
+          -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true
+          -p:EnableCompressionInSingleFile=true -o publish
+      - name: 압축
+        shell: pwsh
+        run: Compress-Archive -Path publish/Tether.exe -DestinationPath Tether-windows-x64.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows
+          path: Tether-windows-x64.zip
+          if-no-files-found: error
+
+  publish:
+    needs: [macos, windows]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - name: 릴리스 만들기
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >
+          gh release create "$GITHUB_REF_NAME" dist/Tether-macos.zip dist/Tether-windows-x64.zip
+          --title "Tether $GITHUB_REF_NAME"
+          --notes-file .github/release-notes.md
