@@ -2,17 +2,17 @@
 import PackageDescription
 
 let package = Package(
-    name: "Tether",
+    name: "Pluggy",
     platforms: [.macOS(.v14)],
     targets: [
         .executableTarget(
-            name: "Tether",
-            path: "Sources/Tether"
+            name: "Pluggy",
+            path: "Sources/Pluggy"
         ),
         .testTarget(
-            name: "TetherTests",
-            dependencies: ["Tether"],
-            path: "Tests/TetherTests",
+            name: "PluggyTests",
+            dependencies: ["Pluggy"],
+            path: "Tests/PluggyTests",
             resources: [.copy("Fixtures")]
         ),
     ],

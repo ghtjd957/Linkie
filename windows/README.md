@@ -1,4 +1,4 @@
-# Tether — Windows
+# Pluggy — Windows
 
 작업 표시줄 알림 영역(트레이)에 아이콘으로 상주한다. 아이콘 안의 숫자가 연결된 기기 수이고, 누르면 목록이 뜬다.
 
@@ -10,15 +10,15 @@
 
 ## 받기
 
-저장소의 **Actions → windows → 최근 실행 → Artifacts** 또는 [Releases](../../../releases/latest) 에서 `Tether-windows-x64` 를 내려받아 압축을 풀고 `Tether.exe` 를 실행한다. 설치 과정은 없고, .NET 을 따로 깔 필요도 없다.
+저장소의 **Actions → windows → 최근 실행 → Artifacts** 또는 [Releases](../../../releases/latest) 에서 `Pluggy-windows-x64` 를 내려받아 압축을 풀고 `Pluggy.exe` 를 실행한다. 설치 과정은 없고, .NET 을 따로 깔 필요도 없다.
 
 서명되지 않은 실행 파일이라 처음 실행할 때 SmartScreen 경고가 뜨면 「추가 정보 → 실행」을 누른다.
 
 ## 직접 빌드 (Windows, .NET 8 SDK)
 
 ```powershell
-dotnet test windows/Tether.Tests
-dotnet run --project windows/Tether.App
+dotnet test windows/Pluggy.Tests
+dotnet run --project windows/Pluggy.App
 ```
 
 ## 맥용과 다른 점
@@ -33,6 +33,6 @@ dotnet run --project windows/Tether.App
 
 ## 구조
 
-- `Tether.Core` — 기기 모델, adb·기기 조회 결과 파서, 중복 제거. 화면과 무관해 어느 OS 에서나 테스트된다.
-- `Tether.App` — 트레이 아이콘, 팝업 창(WPF), 명령 실행. 블루투스·USB 는 `Scripts/pnp.ps1` 이 `Get-PnpDevice` 로 조회한다.
-- `Tether.Tests` — 파서·병합 테스트.
+- `Pluggy.Core` — 기기 모델, adb·기기 조회 결과 파서, 중복 제거. 화면과 무관해 어느 OS 에서나 테스트된다.
+- `Pluggy.App` — 트레이 아이콘, 팝업 창(WPF), 명령 실행. 블루투스·USB 는 `Scripts/pnp.ps1` 이 `Get-PnpDevice` 로 조회한다.
+- `Pluggy.Tests` — 파서·병합 테스트.
