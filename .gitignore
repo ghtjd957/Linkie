@@ -1,3 +1,6 @@
 .build/
 Tether.app/
 .DS_Store
+bin/
+obj/
+publish/

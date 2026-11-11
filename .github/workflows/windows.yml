@@ -1,0 +1,45 @@
+name: windows
+
+on:
+  push:
+    paths:
+      - "windows/**"
+      - ".github/workflows/windows.yml"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      # 실제 윈도우에서 기기 조회 스크립트가 돌고 JSON 을 내는지 확인한다.
+      - name: 기기 조회 스크립트 실행
+        shell: powershell
+        run: |
+          $out = & powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File windows\Tether.App\Scripts\pnp.ps1
+          if ($LASTEXITCODE -ne 0) { throw "pnp.ps1 exit $LASTEXITCODE" }
+          Write-Host $out
+          $null = $out | ConvertFrom-Json
+          $file = Join-Path $env:RUNNER_TEMP 'pnp.json'
+          [System.IO.File]::WriteAllText($file, ($out -join "`n"))
+          "TETHER_PNP_SMOKE_FILE=$file" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+
+      - name: 테스트
+        run: dotnet test windows/Tether.Tests -c Release
+
+      - name: 실행 파일 만들기
+        run: >
+          dotnet publish windows/Tether.App -c Release -r win-x64 --self-contained true
+          -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true
+          -p:EnableCompressionInSingleFile=true -o publish
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Tether-windows-x64
+          path: publish/Tether.exe
+          if-no-files-found: error
