@@ -192,3 +192,41 @@ public class MergeTests
         Assert.False(DeviceMerger.SameContent(Sections(50), Sections(49)));
     }
 }
+
+public class BatteryAlertTests
+{
+    private static Device Make(string id, int? battery) =>
+        new(id, id, "", DeviceKind.Bluetooth, DeviceAccent.Bluetooth, DeviceIcon.Keyboard, Battery: battery);
+
+    [Fact]
+    public void 임계값_이하로_내려간_기기만_한_번_알린다()
+    {
+        var tracker = new BatteryAlertTracker();
+
+        Assert.Empty(tracker.Update(new[] { Make("kb", 21), Make("pad", 72), Make("none", null) }));
+        Assert.Equal(new[] { "kb" }, tracker.Update(new[] { Make("kb", 20), Make("pad", 72) }).Select(d => d.Id));
+        Assert.Empty(tracker.Update(new[] { Make("kb", 19), Make("pad", 72) })); // 이미 알림
+    }
+
+    [Fact]
+    public void 충분히_충전돼야_다시_알릴_수_있다()
+    {
+        var tracker = new BatteryAlertTracker();
+        tracker.Update(new[] { Make("kb", 18) });
+
+        Assert.Empty(tracker.Update(new[] { Make("kb", 23) })); // 임계값 근처에서 오르내리는 중
+        Assert.Empty(tracker.Update(new[] { Make("kb", 20) }));
+        Assert.Empty(tracker.Update(new[] { Make("kb", 60) })); // 충전됨
+        Assert.Equal(new[] { "kb" }, tracker.Update(new[] { Make("kb", 15) }).Select(d => d.Id));
+    }
+
+    [Fact]
+    public void 잠깐_끊겼다_다시_붙어도_다시_알리지_않는다()
+    {
+        var tracker = new BatteryAlertTracker();
+        tracker.Update(new[] { Make("kb", 10) });
+
+        Assert.Empty(tracker.Update(Array.Empty<Device>()));
+        Assert.Empty(tracker.Update(new[] { Make("kb", 10) }));
+    }
+}

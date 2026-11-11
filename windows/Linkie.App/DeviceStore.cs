@@ -18,11 +18,15 @@ internal sealed class DeviceStore
     /// <summary>목록 내용이나 새로고침 상태가 바뀌었을 때.</summary>
     public event Action? Changed;
 
+    /// <summary>배터리가 새로 부족해진 기기가 있을 때(기기당 한 번).</summary>
+    public event Action<Device>? LowBattery;
+
     // 출처별 직전 값 — 한 출처가 실패해도 나머지는 그대로 둔다.
     private List<Device> _android = new();
     private IReadOnlyList<Device> _bluetooth = Array.Empty<Device>();
     private IReadOnlyList<Device> _usb = Array.Empty<Device>();
     private readonly Dictionary<string, string> _androidNames = new();
+    private readonly BatteryAlertTracker _batteryAlerts = new();
     private bool _started;
 
     public void Start()
@@ -86,5 +90,10 @@ internal sealed class DeviceStore
         if (DeviceMerger.SameContent(merged, Sections)) return;
         Sections = merged;
         Changed?.Invoke();
+
+        foreach (var device in _batteryAlerts.Update(merged.SelectMany(s => s.Devices)))
+        {
+            LowBattery?.Invoke(device);
+        }
     }
 }

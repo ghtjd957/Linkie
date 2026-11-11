@@ -53,6 +53,16 @@ internal sealed class TrayIcon : IDisposable
         if (previous != IntPtr.Zero) DestroyIcon(previous);
     }
 
+    /// <summary>윈도우 알림으로 배터리 부족을 알린다.</summary>
+    public void NotifyLowBattery(string name, int level)
+    {
+        _icon.ShowBalloonTip(
+            5000,
+            $"{name} 배터리 {level}%",
+            "배터리가 얼마 남지 않았어요. 충전해 주세요.",
+            WinForms.ToolTipIcon.Warning);
+    }
+
     /// <summary>둥근 사각 테두리 안에 숫자. 작업 표시줄이 밝으면 검정, 어두우면 흰색.</summary>
     private static IntPtr Draw(int count, bool lightTaskbar)
     {

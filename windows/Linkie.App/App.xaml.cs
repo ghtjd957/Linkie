@@ -27,6 +27,10 @@ public partial class App : Application
         _tray = new TrayIcon();
 
         _store.Changed += () => _tray.SetCount(_store.Total);
+        _store.LowBattery += device =>
+        {
+            if (device.Battery is { } level) _tray.NotifyLowBattery(device.Name, level);
+        };
         _tray.Clicked += TogglePopup;
         _tray.RefreshRequested += () => _ = _store.RefreshNowAsync();
         _tray.QuitRequested += Shutdown;
