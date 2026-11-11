@@ -86,9 +86,69 @@ enum BluetoothProvider {
         }
     }
 
+    // MARK: 배터리 보조 출처
+    // system_profiler 는 에어팟 정도만 배터리를 알려 준다. 나머지는 아래 두 곳에서 채운다.
+
+    /// `ioreg -r -k BatteryPercent -a` 출력(plist) → [정규화한 주소: 잔량]. 애플 매직 기기가 여기 나온다.
+    static func parseIORegBatteries(_ data: Data) -> [String: Int] {
+        guard let entries = try? PropertyListSerialization.propertyList(from: data, format: nil) as? [[String: Any]]
+        else { return [:] }
+        var result: [String: Int] = [:]
+        for entry in entries {
+            guard let percent = entry["BatteryPercent"] as? Int,
+                  let address = (entry["DeviceAddress"] as? String) ?? (entry["SerialNumber"] as? String)
+            else { continue }
+            result[normalizedAddress(address)] = percent
+        }
+        return result
+    }
+
+    /// `pmset -g accps` 출력 → [기기 이름: 잔량]. 배터리 서비스를 가진 일반 블루투스 기기가 여기 나온다.
+    /// 줄 형태: ` -Keyboard 1 (id=12345678)\t44%; discharging present: true`
+    static func parseAccessoryBatteries(_ output: String) -> [String: Int] {
+        var result: [String: Int] = [:]
+        for line in output.split(whereSeparator: \.isNewline) {
+            let trimmed = line.trimmingCharacters(in: .whitespaces)
+            guard trimmed.hasPrefix("-"),
+                  let idRange = trimmed.range(of: " (id="),
+                  let percentEnd = trimmed.range(of: "%;"),
+                  let tab = trimmed[..<percentEnd.lowerBound].lastIndex(where: { $0 == "\t" || $0 == " " })
+            else { continue }
+            let name = String(trimmed[trimmed.index(after: trimmed.startIndex)..<idRange.lowerBound])
+            guard !name.isEmpty, !name.hasPrefix("InternalBattery"),
+                  let percent = Int(trimmed[trimmed.index(after: tab)..<percentEnd.lowerBound])
+            else { continue }
+            result[name] = percent
+        }
+        return result
+    }
+
+    /// "aa-00-00-00-00-02" 와 "AA:00:00:00:00:02" 를 같은 값으로.
+    static func normalizedAddress(_ raw: String) -> String {
+        raw.uppercased().filter { $0.isHexDigit }
+    }
+
+    /// 배터리가 비어 있는 기기만 보조 출처로 채운다(주소 우선, 다음 이름).
+    static func fillBatteries(_ devices: [Device], byAddress: [String: Int], byName: [String: Int]) -> [Device] {
+        devices.map { device in
+            guard device.battery == nil else { return device }
+            var filled = device
+            filled.battery = device.copyText.flatMap { byAddress[normalizedAddress($0)] } ?? byName[device.name]
+            return filled
+        }
+    }
+
     static func fetch() async -> [Device]? {
-        guard let data = await Shell.run("/usr/sbin/system_profiler", ["SPBluetoothDataType", "-json"], timeout: 8)
-        else { return nil }
-        return parse(data)
+        async let profiler = Shell.run("/usr/sbin/system_profiler", ["SPBluetoothDataType", "-json"], timeout: 8)
+        async let ioreg = Shell.run("/usr/sbin/ioreg", ["-r", "-k", "BatteryPercent", "-a"], timeout: 3)
+        async let pmset = Shell.runText("/usr/bin/pmset", ["-g", "accps"], timeout: 3)
+
+        guard let data = await profiler else { return nil }
+        let (ioregData, pmsetText) = await (ioreg, pmset)
+        return fillBatteries(
+            parse(data),
+            byAddress: ioregData.map(parseIORegBatteries) ?? [:],
+            byName: pmsetText.map(parseAccessoryBatteries) ?? [:]
+        )
     }
 }

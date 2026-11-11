@@ -118,6 +118,40 @@ private func fixtureText(_ name: String) throws -> String {
     }
 }
 
+@Suite struct BluetoothBatteryTests {
+    @Test func ioreg에서_주소별_잔량을_읽는다() {
+        let plist = """
+        <?xml version="1.0" encoding="UTF-8"?>
+        <plist version="1.0"><array><dict>
+          <key>Product</key><string>Magic Trackpad</string>
+          <key>BatteryPercent</key><integer>72</integer>
+          <key>DeviceAddress</key><string>aa-00-00-00-00-02</string>
+        </dict></array></plist>
+        """
+        #expect(BluetoothProvider.parseIORegBatteries(Data(plist.utf8)) == ["AA0000000002": 72])
+        #expect(BluetoothProvider.parseIORegBatteries(Data()).isEmpty)
+    }
+
+    @Test func pmset에서_이름별_잔량을_읽고_내장_배터리는_건너뛴다() {
+        let output = "Now drawing from 'AC Power'\n"
+            + " -InternalBattery-0 (id=23920739)\t80%; AC attached; not charging present: true\n"
+            + " - (id=-496238592)\t72%; discharging present: true\n"
+            + " -Keyboard 1 (id=41030546)\t44%; \n"
+        #expect(BluetoothProvider.parseAccessoryBatteries(output) == ["Keyboard 1": 44])
+    }
+
+    @Test func 비어_있는_배터리만_주소_우선으로_채운다() throws {
+        let devices = BluetoothProvider.parse(try fixture("bluetooth.json"))
+        let filled = BluetoothProvider.fillBatteries(
+            devices,
+            byAddress: ["AA0000000002": 72],
+            byName: ["Keyboard 1": 44, "Magic Trackpad 2": 1]
+        )
+        let byName = Dictionary(uniqueKeysWithValues: filled.map { ($0.name, $0.battery) })
+        #expect(byName == ["Keyboard 1": 44, "Magic Trackpad 2": 72])
+    }
+}
+
 @Suite struct USBParserTests {
     @Test func 버스와_허브는_숨기고_장치만_남긴다() throws {
         let devices = USBProvider.parseUSB(try fixture("usb.json"))

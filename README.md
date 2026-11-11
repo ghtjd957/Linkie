@@ -34,7 +34,7 @@ TETHER_SNAPSHOT_DIR=/tmp/tether swift test --filter Snapshot   # 팝오버를 �
 | 안드로이드 | `adb devices -l`, `adb shell dumpsys battery` |
 | iOS 시뮬레이터 | `xcrun simctl list devices booted -j` |
 | iOS 실기기 | `xcrun devicectl list devices --json-output` |
-| 블루투스 | `system_profiler SPBluetoothDataType -json` |
+| 블루투스 | `system_profiler SPBluetoothDataType -json` (배터리는 `ioreg -r -k BatteryPercent`, `pmset -g accps` 로 보충) |
 | USB | `system_profiler SPUSBHostDataType -json` (macOS 26 에서 `SPUSBDataType` 은 빈 값) |
 | 썬더볼트 | `system_profiler SPThunderboltDataType -json` |
 
