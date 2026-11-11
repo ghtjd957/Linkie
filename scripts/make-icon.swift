@@ -1,7 +1,7 @@
 // 앱 아이콘을 코드로 그려 맥용 .icns, 윈도우용 .ico, README용 PNG 를 만든다.
 // 사용(저장소 루트에서): swift scripts/make-icon.swift
 //
-// 그림: 웃는 노트북에서 줄이 뻗어 나가 세 개의 색 점(개발 기기·블루투스·USB)에 이어진다.
+// 그림: 검은 판 위에 웃는 흰 노트북, 거기서 줄 셋이 뻗어 나가 고리(연결된 기기)에 이어진다.
 import AppKit
 
 func color(_ hex: UInt32, _ alpha: CGFloat = 1) -> CGColor {
@@ -28,92 +28,69 @@ func render(size: Int, fullBleed: Bool) -> Data {
 
     if !fullBleed {
         ctx.saveGState()
-        ctx.setShadow(offset: CGSize(width: 0, height: -12), blur: 28, color: color(0x000000, 0.35))
+        ctx.setShadow(offset: CGSize(width: 0, height: -12), blur: 28, color: color(0x000000, 0.3))
         ctx.addPath(plate)
-        ctx.setFillColor(color(0x1B1D2E))
+        ctx.setFillColor(color(0x808080))
         ctx.fillPath()
         ctx.restoreGState()
     }
 
-    // 바탕: 짙은 남색 → 보라, 구석에 은은한 빛
+    // 바탕: 짙은 회색 → 검정
     ctx.saveGState()
     ctx.addPath(plate)
     ctx.clip()
-    let base = CGGradient(colorsSpace: space, colors: [color(0x2B2F5E), color(0x191A2C)] as CFArray, locations: [0, 1])!
-    ctx.drawLinearGradient(base, start: CGPoint(x: box.minX, y: box.maxY), end: CGPoint(x: box.maxX, y: box.minY), options: [])
-    for (center, tint, radius) in [
-        (CGPoint(x: box.minX + 170 * u, y: box.maxY - 120 * u), color(0x6D6BFF, 0.55), 520 * u),
-        (CGPoint(x: box.maxX - 120 * u, y: box.minY + 90 * u), color(0x22C3B0, 0.38), 460 * u),
-    ] {
-        let glow = CGGradient(colorsSpace: space, colors: [tint, tint.copy(alpha: 0)!] as CFArray, locations: [0, 1])!
-        ctx.drawRadialGradient(glow, startCenter: center, startRadius: 0, endCenter: center, endRadius: radius, options: [])
-    }
-    // 위쪽 가장자리의 얇은 반사광
-    let sheen = CGGradient(colorsSpace: space, colors: [color(0xFFFFFF, 0.16), color(0xFFFFFF, 0)] as CFArray, locations: [0, 1])!
-    ctx.drawLinearGradient(sheen, start: CGPoint(x: box.midX, y: box.maxY), end: CGPoint(x: box.midX, y: box.maxY - 260 * u), options: [])
+    let base = CGGradient(colorsSpace: space, colors: [color(0x2C2C2E), color(0x000000)] as CFArray, locations: [0, 1])!
+    ctx.drawLinearGradient(base, start: CGPoint(x: box.midX, y: box.maxY), end: CGPoint(x: box.midX, y: box.minY), options: [])
     ctx.restoreGState()
 
     // 그림 — 좌표는 바탕판 왼쪽 아래를 (0,0) 으로 하는 824 단위
     func p(_ x: CGFloat, _ y: CGFloat) -> CGPoint { CGPoint(x: box.minX + x * u, y: box.minY + y * u) }
-    func rect(_ x: CGFloat, _ y: CGFloat, _ w: CGFloat, _ h: CGFloat) -> CGRect {
-        CGRect(x: box.minX + x * u, y: box.minY + y * u, width: w * u, height: h * u)
-    }
-    func rounded(_ r: CGRect, _ radius: CGFloat) -> CGPath {
-        CGPath(roundedRect: r, cornerWidth: radius * u, cornerHeight: radius * u, transform: nil)
+    func rounded(_ x: CGFloat, _ y: CGFloat, _ w: CGFloat, _ h: CGFloat, _ radius: CGFloat) -> CGPath {
+        CGPath(
+            roundedRect: CGRect(x: box.minX + x * u, y: box.minY + y * u, width: w * u, height: h * u),
+            cornerWidth: radius * u, cornerHeight: radius * u, transform: nil
+        )
     }
     func dot(_ center: CGPoint, _ radius: CGFloat) -> CGRect {
         CGRect(x: center.x - radius * u, y: center.y - radius * u, width: radius * 2 * u, height: radius * 2 * u)
     }
+    let white = color(0xFFFFFF), ink = color(0x111113)
 
-    // 노트북 화면 위에서 뻗어 나간 줄 끝에 달린 기기 셋: 개발 기기·블루투스·USB
-    let devices: [(from: CGPoint, c1: CGPoint, c2: CGPoint, to: CGPoint, fill: UInt32)] = [
-        (p(322, 425), p(322, 500), p(262, 535), p(190, 535), 0x34D399),
-        (p(412, 425), p(412, 480), p(412, 560), p(412, 625), 0x60A5FA),
-        (p(502, 425), p(502, 500), p(562, 535), p(634, 535), 0xF472B6),
+    // 화면 위에서 뻗어 나간 줄 셋
+    let cables: [(from: CGPoint, c1: CGPoint, c2: CGPoint, to: CGPoint)] = [
+        (p(322, 425), p(322, 500), p(262, 535), p(190, 535)),
+        (p(412, 425), p(412, 480), p(412, 560), p(412, 625)),
+        (p(502, 425), p(502, 500), p(562, 535), p(634, 535)),
     ]
-
-    ctx.saveGState()
-    ctx.setShadow(offset: CGSize(width: 0, height: -8 * u), blur: 22 * u, color: color(0x000000, 0.35))
-
-    ctx.setStrokeColor(color(0xFFFFFF))
-    ctx.setLineWidth(26 * u)
+    ctx.setStrokeColor(white)
+    ctx.setLineWidth(22 * u)
     ctx.setLineCap(.round)
-    for device in devices {
-        ctx.move(to: device.from)
-        ctx.addCurve(to: device.to, control1: device.c1, control2: device.c2)
+    for cable in cables {
+        ctx.move(to: cable.from)
+        ctx.addCurve(to: cable.to, control1: cable.c1, control2: cable.c2)
     }
     ctx.strokePath()
 
-    for device in devices {
-        ctx.setFillColor(color(0xFFFFFF))
-        ctx.fillEllipse(in: dot(device.to, 70))
-        ctx.setFillColor(color(device.fill))
-        ctx.fillEllipse(in: dot(device.to, 51))
+    // 줄 끝의 고리
+    for cable in cables {
+        ctx.setFillColor(white)
+        ctx.fillEllipse(in: dot(cable.to, 66))
+        ctx.setFillColor(color(0x1A1A1C))
+        ctx.fillEllipse(in: dot(cable.to, 40))
     }
 
-    // 노트북: 화면 테두리 + 받침
-    ctx.setFillColor(color(0xFFFFFF))
-    ctx.addPath(rounded(rect(232, 185, 360, 240), 34))
-    ctx.addPath(rounded(rect(162, 126, 500, 44), 22))
+    // 화면이 켜진 노트북 + 받침
+    ctx.setFillColor(white)
+    ctx.addPath(rounded(232, 185, 360, 240, 34))
+    ctx.addPath(rounded(162, 126, 500, 44, 22))
     ctx.fillPath()
-    ctx.restoreGState()
 
-    // 화면 안쪽
-    ctx.saveGState()
-    let screen = rounded(rect(256, 209, 312, 192), 16)
-    ctx.addPath(screen)
-    ctx.clip()
-    let screenFill = CGGradient(colorsSpace: space, colors: [color(0x3A3F86), color(0x20223F)] as CFArray, locations: [0, 1])!
-    ctx.drawLinearGradient(screenFill, start: p(256, 401), end: p(568, 209), options: [])
-    ctx.restoreGState()
-
-    // 화면 속 웃는 얼굴
-    ctx.setFillColor(color(0xFFFFFF))
+    // 웃는 얼굴
+    ctx.setFillColor(ink)
     ctx.fillEllipse(in: dot(p(366, 326), 15))
     ctx.fillEllipse(in: dot(p(458, 326), 15))
-    ctx.setStrokeColor(color(0xFFFFFF))
+    ctx.setStrokeColor(ink)
     ctx.setLineWidth(13 * u)
-    ctx.setLineCap(.round)
     ctx.addArc(center: p(412, 300), radius: 38 * u, startAngle: 205 * .pi / 180, endAngle: 335 * .pi / 180, clockwise: false)
     ctx.strokePath()
 
