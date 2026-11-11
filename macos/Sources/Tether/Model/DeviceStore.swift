@@ -17,6 +17,7 @@ final class DeviceStore {
     private var bluetooth: [Device] = []
     private var wired: [Device] = []
     private var androidNames: [String: String] = [:]
+    private var batteryAlerts = BatteryAlertTracker()
 
     private var loops: [Task<Void, Never>] = []
 
@@ -30,6 +31,7 @@ final class DeviceStore {
 
     func start() {
         guard loops.isEmpty else { return }
+        BatteryNotifier.requestAuthorization()
         loops = [
             Task { [weak self] in
                 while !Task.isCancelled {
@@ -87,6 +89,10 @@ final class DeviceStore {
             sections = merged
         }
         lastUpdated = .now
+
+        for device in batteryAlerts.update(merged.flatMap(\.devices)) {
+            BatteryNotifier.notifyLow(device)
+        }
     }
 
     /// 섹션으로 묶고, 케이블로 꽂은 개발 기기가 USB 목록에 한 번 더 나오는 것을 지운다.

@@ -202,3 +202,32 @@ private func fixtureText(_ name: String) throws -> String {
         #expect(DeviceStore.merge(dev: [], bluetooth: [], wired: []).isEmpty)
     }
 }
+
+@Suite struct BatteryAlertTests {
+    private func device(_ id: String, _ battery: Int?) -> Device {
+        Device(id: id, name: id, detail: "", kind: .bluetooth, accent: .bluetooth, symbol: "keyboard", battery: battery)
+    }
+
+    @Test func 임계값_이하로_내려간_기기만_한_번_알린다() {
+        var tracker = BatteryAlertTracker()
+        #expect(tracker.update([device("kb", 21), device("pad", 72), device("none", nil)]).isEmpty)
+        #expect(tracker.update([device("kb", 20), device("pad", 72)]).map(\.id) == ["kb"])
+        #expect(tracker.update([device("kb", 19), device("pad", 72)]).isEmpty) // 이미 알림
+    }
+
+    @Test func 충분히_충전돼야_다시_알릴_수_있다() {
+        var tracker = BatteryAlertTracker()
+        _ = tracker.update([device("kb", 18)])
+        #expect(tracker.update([device("kb", 23)]).isEmpty) // 임계값 근처에서 오르내리는 중
+        #expect(tracker.update([device("kb", 20)]).isEmpty)
+        #expect(tracker.update([device("kb", 60)]).isEmpty) // 충전됨
+        #expect(tracker.update([device("kb", 15)]).map(\.id) == ["kb"])
+    }
+
+    @Test func 잠깐_끊겼다_다시_붙어도_다시_알리지_않는다() {
+        var tracker = BatteryAlertTracker()
+        _ = tracker.update([device("kb", 10)])
+        #expect(tracker.update([]).isEmpty)
+        #expect(tracker.update([device("kb", 10)]).isEmpty)
+    }
+}
