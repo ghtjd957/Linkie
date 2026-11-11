@@ -146,7 +146,7 @@ guard fm.fileExists(atPath: root.appendingPathComponent("macos/Package.swift").p
 }
 
 // 맥: iconset → icns
-let iconset = fm.temporaryDirectory.appendingPathComponent("Pluggy-\(ProcessInfo.processInfo.processIdentifier).iconset")
+let iconset = fm.temporaryDirectory.appendingPathComponent("Linkie-\(ProcessInfo.processInfo.processIdentifier).iconset")
 try? fm.removeItem(at: iconset)
 try fm.createDirectory(at: iconset, withIntermediateDirectories: true)
 for points in [16, 32, 128, 256, 512] {
@@ -165,10 +165,10 @@ guard iconutil.terminationStatus == 0 else { exit(1) }
 
 // 윈도우: ico
 let icoData = ico(from: [16, 24, 32, 48, 64, 256].map { ($0, render(size: $0, fullBleed: true)) })
-try icoData.write(to: root.appendingPathComponent("windows/Pluggy.App/Pluggy.ico"))
+try icoData.write(to: root.appendingPathComponent("windows/Linkie.App/Linkie.ico"))
 
 // README
 try fm.createDirectory(at: root.appendingPathComponent("docs"), withIntermediateDirectories: true)
 try render(size: 512, fullBleed: false).write(to: root.appendingPathComponent("docs/icon.png"))
 
-print("만듦: macos/Resources/AppIcon.icns, windows/Pluggy.App/Pluggy.ico, docs/icon.png")
+print("만듦: macos/Resources/AppIcon.icns, windows/Linkie.App/Linkie.ico, docs/icon.png")

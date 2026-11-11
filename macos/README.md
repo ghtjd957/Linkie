@@ -1,4 +1,4 @@
-# Pluggy
+# Linkie
 
 맥에 연결된 기기를 메뉴바에서 한눈에 보는 앱. 아이콘 옆 숫자가 연결된 기기 수이고, 누르면 목록이 내려온다.
 
@@ -13,21 +13,21 @@
 ## 빌드 · 실행
 
 ```bash
-cd macos && scripts/bundle.sh   # macos/Pluggy.app 생성
-open Pluggy.app
+cd macos && scripts/bundle.sh   # macos/Linkie.app 생성
+open Linkie.app
 ```
 
-계속 쓰려면 `Pluggy.app` 을 `/Applications` 로 옮긴 뒤 팝오버 아래 「로그인 시 실행」을 켠다.
+계속 쓰려면 `Linkie.app` 을 `/Applications` 로 옮긴 뒤 팝오버 아래 「로그인 시 실행」을 켠다.
 macOS 14 이상, Xcode 명령줄 도구 필요. 외부 라이브러리 없음.
 
 ## 테스트
 
 ```bash
 swift test
-PLUGGY_SNAPSHOT_DIR=/tmp/pluggy swift test --filter Snapshot   # 팝오버를 라이트/다크 PNG 로 저장
+LINKIE_SNAPSHOT_DIR=/tmp/linkie swift test --filter Snapshot   # 팝오버를 라이트/다크 PNG 로 저장
 ```
 
-`Tests/PluggyTests/Fixtures/` 는 실제 명령 출력의 형태를 그대로 두고 기기 이름·시리얼·UDID·주소만 가짜 값으로 바꾼 것이다.
+`Tests/LinkieTests/Fixtures/` 는 실제 명령 출력의 형태를 그대로 두고 기기 이름·시리얼·UDID·주소만 가짜 값으로 바꾼 것이다.
 
 ## 정보 출처
 

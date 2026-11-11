@@ -21,12 +21,12 @@ jobs:
         working-directory: macos
         run: |
           UNIVERSAL=1 scripts/bundle.sh
-          lipo -archs Pluggy.app/Contents/MacOS/Pluggy
-          ditto -c -k --keepParent Pluggy.app "$GITHUB_WORKSPACE/Pluggy-macos.zip"
+          lipo -archs Linkie.app/Contents/MacOS/Linkie
+          ditto -c -k --keepParent Linkie.app "$GITHUB_WORKSPACE/Linkie-macos.zip"
       - uses: actions/upload-artifact@v4
         with:
           name: macos
-          path: Pluggy-macos.zip
+          path: Linkie-macos.zip
           if-no-files-found: error
 
   windows:
@@ -37,19 +37,19 @@ jobs:
         with:
           dotnet-version: 8.0.x
       - name: 테스트
-        run: dotnet test windows/Pluggy.Tests -c Release
+        run: dotnet test windows/Linkie.Tests -c Release
       - name: 실행 파일 만들기
         run: >
-          dotnet publish windows/Pluggy.App -c Release -r win-x64 --self-contained true
+          dotnet publish windows/Linkie.App -c Release -r win-x64 --self-contained true
           -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true
           -p:EnableCompressionInSingleFile=true -o publish
       - name: 압축
         shell: pwsh
-        run: Compress-Archive -Path publish/Pluggy.exe -DestinationPath Pluggy-windows-x64.zip
+        run: Compress-Archive -Path publish/Linkie.exe -DestinationPath Linkie-windows-x64.zip
       - uses: actions/upload-artifact@v4
         with:
           name: windows
-          path: Pluggy-windows-x64.zip
+          path: Linkie-windows-x64.zip
           if-no-files-found: error
 
   publish:
@@ -65,6 +65,6 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: >
-          gh release create "$GITHUB_REF_NAME" dist/Pluggy-macos.zip dist/Pluggy-windows-x64.zip
-          --title "Pluggy $GITHUB_REF_NAME"
+          gh release create "$GITHUB_REF_NAME" dist/Linkie-macos.zip dist/Linkie-windows-x64.zip
+          --title "Linkie $GITHUB_REF_NAME"
           --notes-file .github/release-notes.md

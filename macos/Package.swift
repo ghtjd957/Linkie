@@ -2,17 +2,17 @@
 import PackageDescription
 
 let package = Package(
-    name: "Pluggy",
+    name: "Linkie",
     platforms: [.macOS(.v14)],
     targets: [
         .executableTarget(
-            name: "Pluggy",
-            path: "Sources/Pluggy"
+            name: "Linkie",
+            path: "Sources/Linkie"
         ),
         .testTarget(
-            name: "PluggyTests",
-            dependencies: ["Pluggy"],
-            path: "Tests/PluggyTests",
+            name: "LinkieTests",
+            dependencies: ["Linkie"],
+            path: "Tests/LinkieTests",
             resources: [.copy("Fixtures")]
         ),
     ],

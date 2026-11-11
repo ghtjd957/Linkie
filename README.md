@@ -1,16 +1,16 @@
-<p align="center"><img src="docs/icon.png" width="128" alt="Pluggy 아이콘"></p>
+<p align="center"><img src="docs/icon.png" width="128" alt="Linkie 아이콘"></p>
 
-# Pluggy 🔌
+# Linkie 🔗
 
 > "지금 내 컴퓨터에 뭐가 붙어 있더라?" 를 1초 만에.
 
 케이블 꽂은 폰, 블루투스 키보드, 어디 갔는지 모를 USB 허브까지.
-Pluggy 는 컴퓨터에 연결된 기기를 한 줄로 세워서 보여 주는 작은 상주 앱이에요.
+Linkie 는 컴퓨터에 연결된 기기를 한 줄로 세워서 보여 주는 작은 상주 앱이에요.
 화면 구석에 조용히 앉아 있다가, 누르면 "네, 지금 이만큼 붙어 있어요" 하고 알려 줍니다.
 
 <p align="center">
-  <img src="docs/popover-dark.png" width="300" alt="어두운 테마의 Pluggy 팝오버 — 개발 기기, 블루투스, USB 섹션">
-  <img src="docs/popover-light.png" width="300" alt="밝은 테마의 Pluggy 팝오버">
+  <img src="docs/popover-dark.png" width="300" alt="어두운 테마의 Linkie 팝오버 — 개발 기기, 블루투스, USB 섹션">
+  <img src="docs/popover-light.png" width="300" alt="밝은 테마의 Linkie 팝오버">
 </p>
 
 ## 이런 걸 해 줘요
@@ -29,8 +29,8 @@ Pluggy 는 컴퓨터에 연결된 기기를 한 줄로 세워서 보여 주는 �
 
 | 내 컴퓨터 | 받을 파일 | 사는 곳 |
 |---|---|---|
-| 맥 (애플 실리콘·인텔) | `Pluggy-macos.zip` | 메뉴바 |
-| 윈도우 10/11 | `Pluggy-windows-x64.zip` | 트레이 |
+| 맥 (애플 실리콘·인텔) | `Linkie-macos.zip` | 메뉴바 |
+| 윈도우 10/11 | `Linkie-windows-x64.zip` | 트레이 |
 
 ### 처음 열 때 경고가 떠요 🙈
 
@@ -48,7 +48,7 @@ Pluggy 는 컴퓨터에 연결된 기기를 한 줄로 세워서 보여 주는 �
 - 같은 와이파이의 다른 기기 찾기
 - 기기 연결 끊기·제어하기
 
-Pluggy 는 보여 주기만 해요. 건드리지 않아요.
+Linkie 는 보여 주기만 해요. 건드리지 않아요.
 
 ## 직접 고쳐 보고 싶다면
 
