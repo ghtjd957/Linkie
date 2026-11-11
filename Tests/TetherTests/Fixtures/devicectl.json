@@ -1,0 +1,204 @@
+{
+  "result": {
+    "devices": [
+      {
+        "identifier": "00000000-0000-0000-0000-000000000001",
+        "connectionProperties": {
+          "pairingState": "paired",
+          "tunnelState": "unavailable"
+        },
+        "deviceProperties": {
+          "name": "iPhone 1",
+          "osVersionNumber": "26.1"
+        },
+        "hardwareProperties": {
+          "deviceType": "iPhone",
+          "marketingName": "iPhone SE (3rd generation)",
+          "platform": "iOS",
+          "productType": "iPhone14,6",
+          "udid": "00008000-0000000000000001"
+        }
+      },
+      {
+        "identifier": "00000000-0000-0000-0000-000000000002",
+        "connectionProperties": {
+          "pairingState": "paired",
+          "tunnelState": "unavailable"
+        },
+        "deviceProperties": {
+          "name": "iPhone 2",
+          "osVersionNumber": "26.6.1"
+        },
+        "hardwareProperties": {
+          "deviceType": "iPhone",
+          "platform": "iOS",
+          "productType": "iPhone17,2",
+          "udid": "00008000-0000000000000002"
+        }
+      },
+      {
+        "identifier": "00000000-0000-0000-0000-000000000003",
+        "connectionProperties": {
+          "pairingState": "paired",
+          "tunnelState": "unavailable"
+        },
+        "deviceProperties": {
+          "name": "iPad 3",
+          "osVersionNumber": "26.0.1"
+        },
+        "hardwareProperties": {
+          "deviceType": "iPad",
+          "marketingName": "iPad (A16)",
+          "platform": "iOS",
+          "productType": "iPad15,7",
+          "udid": "00008000-0000000000000003"
+        }
+      },
+      {
+        "identifier": "00000000-0000-0000-0000-000000000004",
+        "connectionProperties": {
+          "pairingState": "paired",
+          "tunnelState": "unavailable"
+        },
+        "deviceProperties": {
+          "name": "iPhone 4",
+          "osVersionNumber": "26.4.1"
+        },
+        "hardwareProperties": {
+          "deviceType": "iPhone",
+          "marketingName": "iPhone 14",
+          "platform": "iOS",
+          "productType": "iPhone14,7",
+          "udid": "00008000-0000000000000004"
+        }
+      },
+      {
+        "identifier": "00000000-0000-0000-0000-000000000005",
+        "connectionProperties": {
+          "pairingState": "paired",
+          "tunnelState": "unavailable"
+        },
+        "deviceProperties": {
+          "name": "iPhone 5",
+          "osVersionNumber": "26.6"
+        },
+        "hardwareProperties": {
+          "deviceType": "iPhone",
+          "marketingName": "iPhone 14 Pro",
+          "platform": "iOS",
+          "productType": "iPhone15,2",
+          "udid": "00008000-0000000000000005"
+        }
+      },
+      {
+        "identifier": "00000000-0000-0000-0000-000000000006",
+        "connectionProperties": {
+          "pairingState": "paired",
+          "tunnelState": "unavailable"
+        },
+        "deviceProperties": {
+          "name": "iPhone 6",
+          "osVersionNumber": "26.6.1"
+        },
+        "hardwareProperties": {
+          "deviceType": "iPhone",
+          "marketingName": "iPhone 16",
+          "platform": "iOS",
+          "productType": "iPhone17,3",
+          "udid": "00008000-0000000000000006"
+        }
+      },
+      {
+        "identifier": "00000000-0000-0000-0000-000000000007",
+        "connectionProperties": {
+          "pairingState": "paired",
+          "tunnelState": "disconnected",
+          "transportType": "localNetwork"
+        },
+        "deviceProperties": {
+          "name": "appleWatch 7",
+          "osVersionNumber": "10.6.1"
+        },
+        "hardwareProperties": {
+          "deviceType": "appleWatch",
+          "marketingName": "Apple Watch SE",
+          "platform": "watchOS",
+          "productType": "Watch5,10",
+          "udid": "00008000-0000000000000007"
+        }
+      },
+      {
+        "identifier": "00000000-0000-0000-0000-000000000008",
+        "connectionProperties": {
+          "pairingState": "paired",
+          "tunnelState": "unavailable"
+        },
+        "deviceProperties": {
+          "name": "appleWatch 8",
+          "osVersionNumber": "26.3"
+        },
+        "hardwareProperties": {
+          "deviceType": "appleWatch",
+          "marketingName": "Apple Watch SE 3",
+          "platform": "watchOS",
+          "productType": "Watch7,13",
+          "udid": "00008000-0000000000000008"
+        }
+      },
+      {
+        "identifier": "00000000-0000-0000-0000-000000000009",
+        "connectionProperties": {
+          "pairingState": "paired",
+          "tunnelState": "unavailable"
+        },
+        "deviceProperties": {
+          "name": "iPhone 9",
+          "osVersionNumber": "27.2"
+        },
+        "hardwareProperties": {
+          "deviceType": "iPhone",
+          "marketingName": "iPhone 13 Pro",
+          "platform": "iOS",
+          "productType": "iPhone14,2",
+          "udid": "00008000-0000000000000009"
+        }
+      },
+      {
+        "identifier": "00000000-0000-0000-0000-000000000010",
+        "connectionProperties": {
+          "pairingState": "paired",
+          "tunnelState": "unavailable"
+        },
+        "deviceProperties": {
+          "name": "iPhone 10",
+          "osVersionNumber": "27.2"
+        },
+        "hardwareProperties": {
+          "deviceType": "iPhone",
+          "marketingName": "iPhone 15 Plus",
+          "platform": "iOS",
+          "productType": "iPhone15,5",
+          "udid": "00008000-000000000000000A"
+        }
+      },
+      {
+        "identifier": "00000000-0000-0000-0000-000000000011",
+        "connectionProperties": {
+          "pairingState": "paired",
+          "tunnelState": "unavailable"
+        },
+        "deviceProperties": {
+          "name": "iPhone 11",
+          "osVersionNumber": "26.6"
+        },
+        "hardwareProperties": {
+          "deviceType": "iPhone",
+          "marketingName": "iPhone 15 Pro",
+          "platform": "iOS",
+          "productType": "iPhone16,1",
+          "udid": "00008000-000000000000000B"
+        }
+      }
+    ]
+  }
+}

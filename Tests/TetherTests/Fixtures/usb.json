@@ -1,0 +1,75 @@
+{
+  "SPUSBHostDataType" : [
+    {
+      "_items" : [
+        {
+          "_name" : "EarPods",
+          "USBDeviceKeyLinkSpeed" : "12 Mb/s",
+          "USBDeviceKeyPowerAllocation" : "1.5 W (300 mA)",
+          "USBDeviceKeyProductID" : "0x110b",
+          "USBDeviceKeyProductVersion" : "0x2681",
+          "USBDeviceKeySerialNumber" : "EARPODS0001",
+          "USBDeviceKeyVendorID" : "0x05ac",
+          "USBDeviceKeyVendorName" : "Apple, Inc.",
+          "USBKeyHardwareType" : "Removable",
+          "USBKeyLocationID" : "0x01100000"
+        }
+      ],
+      "_name" : "USB 3.1 Bus",
+      "Driver" : "AppleT8112USBXHCI",
+      "USBKeyHardwareType" : "Built-in",
+      "USBKeyLocationID" : "0x01000000"
+    },
+    {
+      "_items" : [
+        {
+          "_items" : [
+            {
+              "_name" : "LG Monitor Controls",
+              "USBDeviceKeyLinkSpeed" : "12 Mb/s",
+              "USBDeviceKeyProductID" : "0x9a39",
+              "USBDeviceKeyProductVersion" : "0x0411",
+              "USBDeviceKeySerialNumber" : "LGMON0000001",
+              "USBDeviceKeyVendorID" : "0x043e",
+              "USBDeviceKeyVendorName" : "LG Electronics Inc.",
+              "USBKeyHardwareType" : "Non-removable",
+              "USBKeyLocationID" : "0x02130000"
+            }
+          ],
+          "_name" : "USB2.1 Hub",
+          "USBDeviceKeyLinkSpeed" : "480 Mb/s",
+          "USBDeviceKeyProductID" : "0x5411",
+          "USBDeviceKeyProductVersion" : "0x0203",
+          "USBDeviceKeySerialNumber" : "Not Provided",
+          "USBDeviceKeyVendorID" : "0x0bda",
+          "USBDeviceKeyVendorName" : "Generic",
+          "USBKeyHardwareType" : "Removable",
+          "USBKeyLocationID" : "0x02100000"
+        }
+      ],
+      "_name" : "USB 3.1 Bus",
+      "Driver" : "AppleT8112USBXHCI",
+      "USBKeyHardwareType" : "Built-in",
+      "USBKeyLocationID" : "0x02000000"
+    },
+    {
+      "_items" : [
+        {
+          "_name" : "SAMSUNG_Android",
+          "USBDeviceKeyLinkSpeed" : "480 Mb/s",
+          "USBDeviceKeyProductID" : "0x6860",
+          "USBDeviceKeyProductVersion" : "0x0504",
+          "USBDeviceKeySerialNumber" : "R3CX00TEST01",
+          "USBDeviceKeyVendorID" : "0x04e8",
+          "USBDeviceKeyVendorName" : "SAMSUNG",
+          "USBKeyHardwareType" : "Removable",
+          "USBKeyLocationID" : "0x00100000"
+        }
+      ],
+      "_name" : "USB 3.1 Bus",
+      "Driver" : "AppleT8112USBXHCI",
+      "USBKeyHardwareType" : "Built-in",
+      "USBKeyLocationID" : "0x00000000"
+    }
+  ]
+}

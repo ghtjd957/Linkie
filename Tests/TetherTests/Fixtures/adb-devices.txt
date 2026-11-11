@@ -1,0 +1,3 @@
+List of devices attached
+R3CX00TEST01            device usb:0-1 product:q4qksx model:SM_F936N device:q4q transport_id:1
+

@@ -1,0 +1,34 @@
+#!/bin/zsh
+# 릴리스 빌드를 Tether.app 으로 묶는다. 사용: scripts/bundle.sh
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+swift build -c release
+
+APP="Tether.app"
+rm -rf "$APP"
+mkdir -p "$APP/Contents/MacOS"
+cp "$(swift build -c release --show-bin-path)/Tether" "$APP/Contents/MacOS/Tether"
+
+cat > "$APP/Contents/Info.plist" <<'PLIST'
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleName</key><string>Tether</string>
+    <key>CFBundleDisplayName</key><string>Tether</string>
+    <key>CFBundleIdentifier</key><string>local.tether.menubar</string>
+    <key>CFBundleExecutable</key><string>Tether</string>
+    <key>CFBundlePackageType</key><string>APPL</string>
+    <key>CFBundleShortVersionString</key><string>1.0</string>
+    <key>CFBundleVersion</key><string>1</string>
+    <key>LSMinimumSystemVersion</key><string>14.0</string>
+    <!-- 메뉴바 전용: Dock 아이콘 없음 -->
+    <key>LSUIElement</key><true/>
+    <key>NSHighResolutionCapable</key><true/>
+</dict>
+</plist>
+PLIST
+
+codesign --force --sign - "$APP" >/dev/null
+echo "완성: $(pwd)/$APP"

@@ -1,0 +1,123 @@
+{
+  "SPBluetoothDataType": [
+    {
+      "device_connected": [
+        {
+          "Keyboard 1": {
+            "device_minorType": "Keyboard",
+            "device_services": "0x400000 < BLE >",
+            "device_address": "AA:00:00:00:00:01"
+          }
+        },
+        {
+          "Magic Trackpad 2": {
+            "device_firmwareVersion": "3.1.8",
+            "device_minorType": "Magic Trackpad",
+            "device_services": "0x800020 < HID ACL >",
+            "device_address": "AA:00:00:00:00:02"
+          }
+        }
+      ],
+      "device_not_connected": [
+        {
+          "Video Display 1": {
+            "device_firmwareVersion": "20.3.6",
+            "device_minorType": "Video Display",
+            "device_address": "BB:00:00:00:00:01"
+          }
+        },
+        {
+          "Mobile Phone 2": {
+            "device_firmwareVersion": "2.0.1",
+            "device_minorType": "Mobile Phone",
+            "device_address": "BB:00:00:00:00:02"
+          }
+        },
+        {
+          "Keyboard 3": {
+            "device_minorType": "Keyboard",
+            "device_address": "BB:00:00:00:00:03"
+          }
+        },
+        {
+          "Device 4": {
+            "device_address": "BB:00:00:00:00:04"
+          }
+        },
+        {
+          "Headphones 5": {
+            "device_firmwareVersion": "6A300",
+            "device_minorType": "Headphones",
+            "device_address": "BB:00:00:00:00:05"
+          }
+        },
+        {
+          "Headphones 6": {
+            "device_firmwareVersion": "6F25",
+            "device_minorType": "Headphones",
+            "device_address": "BB:00:00:00:00:06"
+          }
+        },
+        {
+          "Headphones 7": {
+            "device_firmwareVersion": "6F21",
+            "device_minorType": "Headphones",
+            "device_address": "BB:00:00:00:00:07"
+          }
+        },
+        {
+          "Headphones 8": {
+            "device_firmwareVersion": "0.0.1",
+            "device_minorType": "Headphones",
+            "device_address": "BB:00:00:00:00:08"
+          }
+        },
+        {
+          "Headphones 9": {
+            "device_firmwareVersion": "4​E71",
+            "device_minorType": "Headphones",
+            "device_address": "BB:00:00:00:00:09"
+          }
+        },
+        {
+          "Headphones 10": {
+            "device_firmwareVersion": "6.8.8",
+            "device_minorType": "Headphones",
+            "device_address": "BB:00:00:00:00:0A"
+          }
+        },
+        {
+          "Headphones 11": {
+            "device_firmwareVersion": "6F25",
+            "device_minorType": "Headphones",
+            "device_address": "BB:00:00:00:00:0B"
+          }
+        },
+        {
+          "Headphones 12": {
+            "device_firmwareVersion": "6F21",
+            "device_minorType": "Headphones",
+            "device_address": "BB:00:00:00:00:0C"
+          }
+        },
+        {
+          "Headphones 13": {
+            "device_firmwareVersion": "7.8.8",
+            "device_minorType": "Headphones",
+            "device_address": "BB:00:00:00:00:0D"
+          }
+        },
+        {
+          "Device 14": {
+            "device_address": "BB:00:00:00:00:0E"
+          }
+        },
+        {
+          "Device 15": {
+            "device_address": "BB:00:00:00:00:0F"
+          }
+        }
+      ]
+    }
+  ]
+}
